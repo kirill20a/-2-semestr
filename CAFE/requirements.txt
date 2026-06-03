@@ -1,0 +1,14 @@
+pytest>=7.0.0
+pytest-cov>=4.0.0
+flake8>=6.0.0
+coverage>=7.0.0
+
+# UI
+tkinter
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+
+# Dataclasses (уже в Python 3.7+)
+# typing (уже в стандартной библиотеке)
