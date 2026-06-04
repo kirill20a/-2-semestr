@@ -1,0 +1,64 @@
+services:
+  menu-service:
+    build: ./menu_service
+    ports:
+      - "8001:8000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: cafe
+      DB_PASS: cafe123
+      DB_NAME: cafe_db
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - cafe-net
+
+  order-service:
+    build: ./order_service
+    ports:
+      - "8002:8000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: cafe
+      DB_PASS: cafe123
+      DB_NAME: cafe_db
+      MENU_SERVICE_URL: http://menu-service:8000
+    depends_on:
+      db:
+        condition: service_healthy
+      menu-service:
+        condition: service_started
+    networks:
+      - cafe-net
+
+  db:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    environment:
+      POSTGRES_USER: cafe
+      POSTGRES_PASSWORD: cafe123
+      POSTGRES_DB: cafe_db
+    volumes:
+      - cafe-db:/var/lib/postgresql/data
+    networks:
+      - cafe-net
+
+networks:
+  cafe-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.20.0/24
+
+volumes:
+  cafe-db:
