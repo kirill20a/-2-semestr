@@ -1,0 +1,17 @@
+# Core dependencies
+# tkinter - встроен в Python
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+
+# Build
+build>=0.10.0
+twine>=4.0.0
+
+# Linting
+flake8>=6.0.0
+
+# Documentation (optional)
+# mkdocs>=1.4.0
+# mkdocs-material>=9.0.0
