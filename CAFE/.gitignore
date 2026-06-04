@@ -1,0 +1,295 @@
+
+
+# PYTHON
+
+
+# Байт-компилированные файлы
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Распределение / упаковка
+build/
+dist/
+*.egg-info/
+*.egg
+MANIFEST
+
+# Виртуальные окружения
+.venv/
+venv/
+env/
+ENV/
+.ENV/
+
+# Установщик пакетов
+*.whl
+*.tar.gz
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pytest
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.cover
+
+# Pytest coverage
+.coverage
+.coverage.*
+htmlcov/
+*.cover
+coverage.xml
+
+
+
+# IDE И РЕДАКТОРЫ
+
+# PyCharm / IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code
+.vscode/
+*.code-workspace
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*#
+.#*
+
+
+# БАЗА ДАННЫХ И ДАННЫЕ
+
+
+# SQLite базы данных
+*.db
+*.sqlite
+*.sqlite3
+data/*.db
+data/*.sqlite
+
+# Но оставляем SQL скрипты инициализации
+!sql/*.sql
+!sql/init_db.sql
+
+
+# ДОКУМЕНТАЦИЯ
+
+
+# Сгенерированная документация
+docs/_build/
+docs/site/
+site/
+docs/build/
+
+# MkDocs
+.material/
+
+# Sphinx
+docs/_generated/
+docs/_static/
+docs/_templates/
+
+
+# ЛОГИ И ВРЕМЕННЫЕ ФАЙЛЫ
+
+
+# Логи
+*.log
+logs/
+
+# Временные файлы
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# OS файлы
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Windows
+$RECYCLE.BIN/
+System Volume Information/
+
+
+# СЕКРЕТЫ И КОНФИГУРАЦИЯ
+
+
+# Переменные окружения
+.env
+.env.local
+.env.*.local
+*.env
+
+# Секреты
+*.key
+*.pem
+*.secret
+secrets/
+
+# Конфигурация с паролями
+config.local.py
+settings.local.py
+
+
+# DOCKER
+
+
+# Docker volumes (данные контейнеров)
+docker-volumes/
+volumes/
+
+# Но оставляем Dockerfile и docker-compose
+!Dockerfile
+!Docker-compose
+!docker-compose.yml
+!docker-compose.yaml
+!*/Dockerfile
+
+# Docker override файлы (локальные настройки)
+docker-compose.override.yml
+docker-compose.override.yaml
+
+
+# СБОРКА И АРТЕФАКТЫ
+
+
+# Python build
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Node (если используется для документации)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+# ТЕСТЫ
+
+
+# Тестовые данные (если большие)
+tests/fixtures/*.db
+tests/fixtures/*.sqlite
+
+# Но оставляем примеры
+!tests/fixtures/*.json
+!tests/fixtures/*.csv
+
+
+# ПРОЧЕЕ
+
+
+# История команд
+.history
+.bash_history
+.zsh_history
+
+# Python version files
+.python-version
+
+# Pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Tox
+.tox/
+
+# Nox
+.nox/
+
+# Cython debug
+cython_debug/
+
+# Compiled C extensions
+*.so
+*.pyd
+
+
+# СПЕЦИФИЧНО ДЛЯ ПРОЕКТА CAFE
+
+
+# Экспорты и бэкапы (генерируются приложением)
+data/exports/
+data/backups/
+
+# Но оставляем структуру папок
+!data/.gitkeep
+!data/exports/.gitkeep
+!data/backups/.gitkeep
+
+# Скриншоты (если не нужны в репозитории)
+# docs/screenshots/*.png
+# docs/screenshots/*.jpg
+
+# Временные файлы приложения
+*.cache
+session/
+
+# РАЗРАБОТКА
+
+
+# Записи сессий
+*.session
+
+# Профилирование
+*.prof
+*.profile
+
+# Отладка
+.debug/
+
+
+# КОММЕНТАРИИ
+
+
+# Этот файл игнорирует:
+# - Скомпилированные Python файлы
+# - Виртуальные окружения
+# - Базы данных SQLite
+# - Сгенерированную документацию
+# - Логи и временные файлы
+# - Секреты и конфигурацию
+# - OS специфичные файлы
+# - Артефакты сборки
+# - Экспорты и бэкапы данных
+#
+# НЕ игнорирует:
+# - Исходный код Python
+# - Dockerfile и docker-compose
+# - SQL скрипты инициализации
+# - Документацию (исходники)
+# - Тесты и fixtures
+# - Конфигурацию проекта (Makefile, requirements.txt)
