@@ -19,14 +19,62 @@ def get_db():
     return psycopg2.connect(**DB_CONFIG)
 
 
-class StockUpdate(BaseModel):
-    product_id: int
-    quantity: float
+def init_db():
+    conn = get_db()
+    cur = conn.cursor()
+    
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS menu (
+            id_dish SERIAL PRIMARY KEY,
+            name_of_dish VARCHAR(200) NOT NULL,
+            price REAL NOT NULL,
+            cooking_time INTEGER DEFAULT 10,
+            is_available BOOLEAN DEFAULT TRUE
+        );
+        
+        CREATE TABLE IF NOT EXISTS products (
+            id_product SERIAL PRIMARY KEY,
+            name_of_product VARCHAR(200) NOT NULL,
+            unit VARCHAR(20) NOT NULL,
+            quantity_at_storage REAL DEFAULT 0,
+            cost_per_unit REAL DEFAULT 0
+        );
+    ''')
+    
+    # Добавляем данные, если таблицы пустые
+    cur.execute("SELECT COUNT(*) FROM menu")
+    if cur.fetchone()[0] == 0:
+        cur.execute('''
+            INSERT INTO menu (name_of_dish, price, cooking_time) VALUES
+            ('Цезарь с курицей', 280.00, 10),
+            ('Борщ', 220.00, 15),
+            ('Стейк из говядины', 450.00, 20),
+            ('Американо', 120.00, 3),
+            ('Капучино', 150.00, 3),
+            ('Чизкейк', 200.00, 3);
+        ''')
+    
+    cur.execute("SELECT COUNT(*) FROM products")
+    if cur.fetchone()[0] == 0:
+        cur.execute('''
+            INSERT INTO products (name_of_product, unit, quantity_at_storage, cost_per_unit) VALUES
+            ('Куриное филе', 'кг', 5.0, 280.00),
+            ('Говядина', 'кг', 3.0, 600.00),
+            ('Кофе зерновой', 'кг', 1.0, 1200.00),
+            ('Молоко', 'л', 10.0, 70.00);
+        ''')
+    
+    conn.commit()
+    conn.close()
+
+# Вызываем при старте
+@app.on_event("startup")
+def startup():
+    init_db()
 
 
 @app.get("/menu")
 def get_menu():
-    """Получить меню"""
     conn = get_db()
     cur = conn.cursor()
     cur.execute(
@@ -43,7 +91,6 @@ def get_menu():
 
 @app.get("/stock")
 def get_stock():
-    """Остатки на складе"""
     conn = get_db()
     cur = conn.cursor()
     cur.execute(
