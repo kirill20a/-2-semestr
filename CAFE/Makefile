@@ -52,7 +52,7 @@ setup:
 
 run:
 	@echo "$(GREEN)Starting Cafe Application...$(NC)"
-	cd $(SRC_DIR) && py main.py
+	python -m src.main
 
 test:
 	@echo "$(GREEN)Running all tests...$(NC)"
@@ -127,3 +127,9 @@ lint:
 	else \
 		echo "$(YELLOW)flake8 not installed. Install with: pip install flake8$(NC)"; \
 	fi
+
+compose-up:
+	docker-compose up --build -d
+
+compose-down:
+	docker-compose down
