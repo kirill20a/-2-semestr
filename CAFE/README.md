@@ -21,17 +21,53 @@
 ## 🚀 Быстрый старт
 
 ```bash
-make setup     # установить зависимости
-make run       # десктопное приложение
-make compose-up # веб-версия (Docker)
+# Клонировать репозиторий
+git clone https://github.com/kirill20a/-2-semestr.git
+cd CAFE
 
-# Устанавливаем зависимости
-make install
+# Установить зависимости
+make setup
 
-# Запускаем
+# Запустить десктопное приложение
 make run
 ```
+
+## 🐳 Docker
+
+```bash
+make compose-up
+# → http://localhost:8001/docs — Menu Service
+# → http://localhost:8002/docs — Order Service
+```
+
+## 🧪 Тесты
+
+```bash
+make test
+make coverage
+```
+
+## 📖 Документация
+
+```bash
+make docs-serve
+# → http://localhost:8000
+```
+
+## 📦 Установка пакета
+
+```bash
+pip install --index-url https://test.pypi.org/simple/ cafe-is
+```
+## Публикация в PyPI
+
+Пакет опубликован в TestPyPI: https://test.pypi.org/project/cafe-is/
+
+Установка:
+```bash
+pip install --index-url https://test.pypi.org/simple/ cafe-is
+
 ## 👥 Авторы
 
-- Агаев Кирилл — разработка БД , десктоп-приложения , Docker
-- Асанов денис — интерфейс, документация
+- Агаев Кирилл — разработка БД , десктоп-приложения , Docker, PyPI
+- Асанов Денис — интерфейс, документация, тестирование
