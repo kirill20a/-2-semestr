@@ -22,6 +22,35 @@ def get_db():
     return psycopg2.connect(**DB_CONFIG)
 
 
+def init_db():
+    """Создание таблиц при первом запуске"""
+    conn = get_db()
+    cur = conn.cursor()
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS orders (
+            id_order SERIAL PRIMARY KEY,
+            table_num INTEGER NOT NULL,
+            id_employee INTEGER NOT NULL,
+            created_at TIMESTAMP DEFAULT NOW(),
+            status VARCHAR(20) DEFAULT 'Открыт'
+        );
+        CREATE TABLE IF NOT EXISTS order_items (
+            id_item SERIAL PRIMARY KEY,
+            id_order INTEGER NOT NULL REFERENCES orders(id_order),
+            id_dish INTEGER NOT NULL,
+            quantity INTEGER NOT NULL,
+            ready_status BOOLEAN DEFAULT FALSE
+        );
+    ''')
+    conn.commit()
+    conn.close()
+
+
+@app.on_event("startup")
+def startup():
+    init_db()
+
+
 class OrderItem(BaseModel):
     dish_id: int
     quantity: int
@@ -35,17 +64,6 @@ class CreateOrder(BaseModel):
 
 @app.post("/orders")
 async def create_order(req: CreateOrder):
-    """Создать заказ с проверкой меню"""
-    # Проверяем наличие блюд через menu-service
-    async with httpx.AsyncClient() as client:
-        resp = await client.get(f"{MENU_SERVICE_URL}/menu")
-        menu = resp.json()
-    
-    menu_ids = {d["id"] for d in menu}
-    for item in req.items:
-        if item.dish_id not in menu_ids:
-            raise HTTPException(404, f"Блюдо {item.dish_id} не найдено в меню")
-    
     conn = get_db()
     cur = conn.cursor()
     cur.execute(
@@ -69,19 +87,17 @@ async def create_order(req: CreateOrder):
 
 @app.get("/kitchen")
 def kitchen_queue():
-    """Очередь кухни"""
     conn = get_db()
     cur = conn.cursor()
     cur.execute(
-        "SELECT o.id_order, o.table_num, m.name_of_dish, oi.quantity "
+        "SELECT o.id_order, o.table_num, oi.id_dish, oi.quantity "
         "FROM order_items oi "
         "JOIN orders o ON oi.id_order = o.id_order "
-        "JOIN menu m ON oi.id_dish = m.id_dish "
-        "WHERE oi.ready_status = 0 AND o.status IN ('Готовится') "
+        "WHERE oi.ready_status = FALSE AND o.status = 'Готовится' "
         "ORDER BY o.created_at"
     )
     queue = [
-        {"order_id": r[0], "table": r[1], "dish": r[2], "quantity": r[3]}
+        {"order_id": r[0], "table": r[1], "dish_id": r[2], "quantity": r[3]}
         for r in cur.fetchall()
     ]
     conn.close()
