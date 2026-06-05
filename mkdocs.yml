@@ -1,6 +1,6 @@
 site_name: Cafe IS — Информационная система кафе
 site_description: Документация проекта автоматизации кафе
-site_author: Ваше Имя, Имя Напарника
+site_author: Agaev Kirill, Asanov Denis
 theme: material
 
 markdown_extensions:
