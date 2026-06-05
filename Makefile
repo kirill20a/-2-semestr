@@ -133,3 +133,5 @@ compose-up:
 
 compose-down:
 	docker-compose down
+docs-serve:
+	mkdocs serve
