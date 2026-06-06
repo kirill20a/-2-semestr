@@ -1,0 +1,31 @@
+services:
+  menu-service:
+    build: ./menu_service
+    ports:
+      - "8001:8000"
+    networks:
+      - cafe-net
+
+  discount-service:
+    build: ./discount_service
+    ports:
+      - "8003:8000"
+    networks:
+      - cafe-net
+
+  order-service:
+    build: ./order_service
+    ports:
+      - "8002:8000"
+    environment:
+      MENU_SERVICE_URL: http://menu-service:8000
+      DISCOUNT_SERVICE_URL: http://discount-service:8000
+    depends_on:
+      - menu-service
+      - discount-service
+    networks:
+      - cafe-net
+
+networks:
+  cafe-net:
+    driver: bridge
